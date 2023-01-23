@@ -1,5 +1,3 @@
-# A list of email gateways. If you email the correct carrier it'll forward
-# your message
 {
   "sms": {
     "att": "txt.att.net",
