@@ -1,2 +1,2 @@
 # don't leak credentials
-.env
+src/**/credentials.json
