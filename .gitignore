@@ -1,0 +1,2 @@
+# don't leak credentials
+src/**/credentials.json
