@@ -53,7 +53,7 @@ def gen_imgpath(user_id: str, img_manifest: dict, folder = "../images"):
 
 # api calls
 def mail_image(user_id: str, img_manifest: dict, 
-               subject = "Snowman", images_folder = "images"):
+               subject = "Snowman", images_folder = "../images"):
     credentials = get_credentials()
     sender_email = credentials['email']
     sender_smtp = credentials['smtp']
