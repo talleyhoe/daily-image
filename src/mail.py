@@ -47,7 +47,7 @@ def build_message(img: str, msubject: str,
     msg.add_attachment(img_data, maintype='image', subtype=img_type)
     return msg
 
-def gen_imgpath(user_id: str, img_manifest: dict, folder = "images"):
+def gen_imgpath(user_id: str, img_manifest: dict, folder = "../images"):
     img_name = img_manifest[user_id]
     return "/".join( (folder, img_name) )
 
