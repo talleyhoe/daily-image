@@ -30,18 +30,24 @@ def gen_receiver(number: str, carrier: str) -> str:
         print(err)
         sys.exit(1)
 
+def get_ftype(file_name: str):
+    return file_name.split('.')[-1]
+
 def build_message(img: str, msubject: str, 
                   email_to: str, email_from: str) -> EmailMessage:
     msg = EmailMessage()
     msg['From'] = email_from
     msg['To'] = email_to
     msg['Subject'] = msubject
+
+    img_type: str = get_ftype(img)
     with open(img, 'rb') as img_fp:
         img_data = img_fp.read()
-    msg.add_attachment(img_data, maintype='image', subtype='')
+
+    msg.add_attachment(img_data, maintype='image', subtype=img_type)
     return msg
 
-def gen_imgpath(user_id: str, img_manifest: dict, folder = "images"):
+def gen_imgpath(user_id: str, img_manifest: dict, folder = "../images"):
     img_name = img_manifest[user_id]
     return "/".join( (folder, img_name) )
 
@@ -62,7 +68,6 @@ def mail_image(user_id: str, img_manifest: dict,
     with smtplib.SMTP_SSL(sender_smtp, port, context=context) as server:
         server.login(credentials['email'], credentials['pass'])
         server.send_message(msg)
-
     return 0
 
 def mail_txt(user_id: str, message: str, subject: str):
@@ -77,13 +82,14 @@ def mail_txt(user_id: str, message: str, subject: str):
     with smtplib.SMTP_SSL(sender_smtp, port, context=context) as server:
         server.login(credentials['email'], credentials['pass'])
         server.sendmail(sender_email, user_email, message)
-
     return 0
 
 
 def test():
     user_id = "talleyhoe"
-    img_manifest = { "talleyhoe": "test-tux.jpg" }
+    img_manifest = { 
+        user_id: "test-tux.jpg"
+    }
     img_folder = "../test"
     mail_txt(user_id, "Test worked", "Txt test - subject")
     mail_image(user_id, img_manifest, "img test - subject", img_folder)
