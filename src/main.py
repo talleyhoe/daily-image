@@ -5,17 +5,17 @@ from scrape import *
 def main():
     user_query = {
         "user": "talleyhoe",
-        "profile": ["tux linux", "arch btw", "gentoo"]
+        "profile": ["tux linux", "arch btw", "gentoo"],
+        "subject": "Txt test - subject",
+        "body": "Test worked",
     }
 
-    img_path = gen_path()
-    img_urls = get_urls(user_query['profile'])
-    manifest_name = get_image(img_urls, img_path)
+    manifest_name = get_image(user_query["profile"])
     manifest = {
         user_query['user']: manifest_name
     }
 
-    mail_txt(user_query['user'], "Test worked", "Txt test - subject")
+    mail_txt(user_query['user'], user_query["body"], user_query["subject"])
     mail_image(user_query['user'], manifest)
 
 if __name__ == "__main__":
