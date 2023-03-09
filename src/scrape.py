@@ -6,9 +6,7 @@ from random import choice
 from random import getrandbits, randrange
 from urllib.parse import urlparse
 import requests
-
 import filetype
-from bs4 import BeautifulSoup
 
 DEBUG = False
 
@@ -21,15 +19,6 @@ def check_size(path: str):
 def sanitize_query(query: str):
     return query.replace(' ','+')
 
-def get_extension(url):
-    path = urlparse(url).path.strip('/')
-    path,filename = os.path.split(path)
-    filename,ext = os.path.splitext(filename)
-    if ext:
-        return ext
-    else:
-        return '.jpg'
- 
 # Get a list of url sources and google's id tag for each image
 def get_image_map(query):
     query = sanitize_query(query)
@@ -70,9 +59,10 @@ def get_image_map(query):
         if (prev_len == len(all_images)):
             no_more+=1
         else:
-            print(len(all_images))
             prev_len = len(all_images)
             no_more = 0
+            if DEBUG:
+                print(len(all_images))
 
 def download_image(url: str, file_path: str):
     try:
@@ -123,16 +113,9 @@ def get_image(usr_profile: list[str]):
             file_path = '.'.join((file_path.split('/')[-1], img_type))
             return file_path
 
-# def gen_path(folder="../images"):
-#     bit_range = 32
-#     collision = True
-#     while collision:
-#         file_id = str(getrandbits(bit_range)) # becuase python is silly
-#         path = '/'.join((folder, file_id))
-#         collision = os.path.isfile(path)
-#     return path
-
 def test():
+    global DEBUG
+    DEBUG = True
     linux_profile = ["tux linux", "arch btw", "gentoo"]
     user_query = {
         "user": "talleyhoe",
